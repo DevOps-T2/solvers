@@ -27,7 +27,7 @@ metadata:
     app: solvers
 spec:
   ports:
-    - port: solvers
+    - port: 80
   selector:
     app: solvers-app
   type: LoadBalancer
