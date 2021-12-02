@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solvers", "Solvers.csproj", "{E719867C-1EBB-4167-BDBA-53D13D189828}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solvers.App", "Solvers.App\Solvers.App.csproj", "{E719867C-1EBB-4167-BDBA-53D13D189828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solvers.Test", "..\Solvers.Test\Solvers.Test.csproj", "{878075AF-6DFF-424D-8453-3AC6AC107127}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solvers.Test", "Solvers.Test\Solvers.Test.csproj", "{878075AF-6DFF-424D-8453-3AC6AC107127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
