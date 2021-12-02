@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+package solvers;
+
+message SolverCreated {
+  required string name = 1;
+}
