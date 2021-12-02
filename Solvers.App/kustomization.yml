@@ -1,5 +1,0 @@
-commonLabels:
-  app: solvers-app
-resources:
-  - Deploy/Dev/app.yml
-  - Deploy/Dev/mysql.yml
