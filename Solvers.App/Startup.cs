@@ -20,12 +20,13 @@ namespace Solvers.App
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("RabbitMq"), c => c.Register<ISerializer, ProtobufSerializer>());
+            //var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("RabbitMq"), c => c.Register<ISerializer, ProtobufSerializer>());
 
-            services.AddSingleton(bus.PubSub);
-            services.AddSingleton(bus);
+            //services.AddSingleton(bus.PubSub);
+            //services.AddSingleton(bus);
 
-            services.AddScoped<CreateSolver>();
+
+            //services.AddScoped<CreateSolver>();
             services.AddScoped<Logging>();
             services.AddRazorPages();
             services.AddControllersWithViews();
@@ -79,13 +80,13 @@ namespace Solvers.App
                     pattern: "api/{controller=Solvers}/{action=Index}/{id?}");
             });
 
-            var subscriber = new AutoSubscriber(app.ApplicationServices.GetRequiredService<IBus>(), "solvers")
+            /*var subscriber = new AutoSubscriber(app.ApplicationServices.GetRequiredService<IBus>(), "solvers")
             {
                 AutoSubscriberMessageDispatcher = new ScopeDispatcher(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>())
             };
 
             subscriber.Subscribe(Assembly.GetExecutingAssembly().GetTypes());
-            subscriber.SubscribeAsync(Assembly.GetExecutingAssembly().GetTypes());
+            subscriber.SubscribeAsync(Assembly.GetExecutingAssembly().GetTypes()); */
 
             app.UseSwagger();
 

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: solvers-app
+  name: solvers
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: solvers-app
+    spec:
+      containers:
+        - name: solvers
+          image: solvers
+          ports:
+            - containerPort: 80
+              name: solvers
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: solvers-app
+  labels:
+    app: solvers
+spec:
+  ports:
+    - port: solvers
+  selector:
+    app: solvers-app
+  type: LoadBalancer
