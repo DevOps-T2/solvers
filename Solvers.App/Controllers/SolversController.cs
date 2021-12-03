@@ -11,14 +11,13 @@ namespace Solvers.App.Controllers
     public class SolversController : Controller
     {
         private readonly ILogger<SolversController> _logger;
-        private readonly IPubSub _bus;
+
         private readonly AppDbContext _context;
 
-        public SolversController(ILogger<SolversController> logger, AppDbContext context, IPubSub bus)
+        public SolversController(ILogger<SolversController> logger, AppDbContext context)
         {
             _logger = logger;
             _context = context;
-            _bus = bus;
         }
         
         [HttpGet]
