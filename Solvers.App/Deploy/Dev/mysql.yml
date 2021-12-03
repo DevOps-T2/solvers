@@ -41,6 +41,7 @@ spec:
         persistentVolumeClaim:
           claimName: mysql-pv-claim
 ---
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
