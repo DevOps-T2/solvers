@@ -19,8 +19,8 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: demo-cluster # TODO: update to cluster name
-  GKE_ZONE: us-central1-c # TODO: update to cluster zone
+  GKE_CLUSTER: dev # TODO: update to cluster name
+  GKE_ZONE: europe-west1-b # TODO: update to cluster zone
   DEPLOYMENT_NAME: solvers # TODO: update to deployment name
   IMAGE: solvers
 

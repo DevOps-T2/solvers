@@ -28,7 +28,6 @@ spec:
       - image: mysql:8.0.27
         name: mysql
         env:
-          # Use secret in real usage
         - name: MYSQL_ROOT_PASSWORD
           value: secret
         ports:
