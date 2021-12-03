@@ -31,13 +31,13 @@ namespace Solvers.App
             services.AddRazorPages();
             services.AddControllersWithViews();
 
-            services.AddDbContext<AppDbContext>(options => options
+            /*services.AddDbContext<AppDbContext>(options => options
             .UseMySql(Configuration.GetConnectionString("Database"), new MySqlServerVersion(new Version(8, 0, 27)))
 
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors());
-
+            */
             services.AddEndpointsApiExplorer();
 
             services.AddSwaggerGen(c =>
@@ -56,6 +56,7 @@ namespace Solvers.App
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            /*
             using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
         
             using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -63,7 +64,7 @@ namespace Solvers.App
             if(context.Database.IsMySql())
             {
                 context.Database.Migrate();
-            }
+            }*/
 
             app.UseStaticFiles();
 
