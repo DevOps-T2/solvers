@@ -1,32 +1,32 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: solvers-mysql
 spec:
   ports:
   - port: 3306
   selector:
-    app: mysql
+    app: solvers-mysql
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: solvers-mysql
 spec:
   selector:
     matchLabels:
-      app: mysql
+      app: solvers-mysql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mysql
+        app: solvers-mysql
     spec:
       containers:
       - image: mysql:8.0.27
-        name: mysql
+        name: solvers-mysql
         env:
         - name: MYSQL_DATABASE
           value: dev
@@ -34,20 +34,20 @@ spec:
           value: secret
         ports:
         - containerPort: 3306
-          name: mysql
+          name: solvers-mysql
         volumeMounts:
-        - name: mysql-persistent-storage
+        - name: solvers-mysql-persistent-storage
           mountPath: /var/lib/mysql
       volumes:
-      - name: mysql-persistent-storage
+      - name: solvers-mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: solvers-mysql-pv-claim
 ---
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-pv
+  name: solvers-mysql-pv
   labels:
     type: local
 spec:
@@ -62,7 +62,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
+  name: solvers-mysql-pv-claim
 spec:
   storageClassName: standard
   accessModes:
