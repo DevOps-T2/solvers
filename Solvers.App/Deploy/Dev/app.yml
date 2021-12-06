@@ -18,6 +18,7 @@ spec:
             - containerPort: 80
               name: solvers
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -26,9 +27,7 @@ metadata:
     app: solvers
 spec:
   ports:
-  - protocol: TCP
-    port: 80
-    nodePort: 32321
+    - port: 80
   selector:
     app: solvers-app
-  type: NodePort
+
