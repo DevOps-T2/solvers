@@ -20,6 +20,8 @@ namespace Solvers.App
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var e = Configuration.GetConnectionString("Database");
             //var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("RabbitMq"), c => c.Register<ISerializer, ProtobufSerializer>());
 
             //services.AddSingleton(bus.PubSub);
