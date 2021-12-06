@@ -2,6 +2,7 @@
 using EasyNetQ;
 using Microsoft.AspNetCore.Mvc;
 using Solvers.App.Actions;
+using Solvers.App.Actions.Queries;
 using Solvers.App.Models;
 
 namespace Solvers.App.Controllers
@@ -12,32 +13,43 @@ namespace Solvers.App.Controllers
     {
         private readonly ILogger<SolversController> _logger;
 
-        private readonly AppDbContext _context;
+        private readonly WriteDbContext _context;
 
-        public SolversController(ILogger<SolversController> logger, AppDbContext context)
+        public SolversController(ILogger<SolversController> logger, WriteDbContext context)
         {
             _logger = logger;
             _context = context;
         }
-        
+
         [HttpGet]
-        public IList<Solver> Index()
+        public IList<Solver> Index([FromServices] ListSolvers action)
         {
-            return _context.Solvers.ToList();
+            return action.FromController();
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult<Solver> Get([FromServices] GetSolver action, long id)
+        {
+            return action.FromController(id);
         }
 
         [HttpPost]
-        public async Task Create([FromServices] CreateSolver action, CreateSolverModel model)
+        public async Task<Solver> Create([FromServices] CreateSolver action, CreateSolverModel model)
         {
-            await action.FromController(model);
+            return await action.FromController(model);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Solver>> Update([FromServices] UpdateSolver action, UpdateSolverModel model)
+        {
+            return await action.FromController(model);
         }
 
         [HttpDelete]
-        public async Task Delete()
+        public async Task<ActionResult> Delete([FromServices] DeleteSolver action, long id)
         {
-            _context.Solvers.RemoveRange(_context.Solvers.ToList());
-            await _context.SaveChangesAsync();
+            return await action.FromController(id);
         }
-
     }
 }

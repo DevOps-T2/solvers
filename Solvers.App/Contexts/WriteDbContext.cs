@@ -5,9 +5,9 @@ using Solvers.App.Models;
 
 namespace Contexts.Solvers
 {
-    public class AppDbContext : DbContext
+    public class WriteDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions options) : base(options)
+        public WriteDbContext(DbContextOptions<WriteDbContext> options) : base(options)
         {
         }
 

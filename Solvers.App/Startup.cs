@@ -4,6 +4,7 @@ using EasyNetQ.AutoSubscribe;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Solvers.App.Actions;
+using Solvers.App.Contracts;
 using Solvers.App.Serializers;
 using System.Reflection;
 
@@ -21,21 +22,32 @@ namespace Solvers.App
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var e = Configuration.GetConnectionString("Database");
+   
             //var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("RabbitMq"), c => c.Register<ISerializer, ProtobufSerializer>());
 
             //services.AddSingleton(bus.PubSub);
             //services.AddSingleton(bus);
 
+            // Auto register actions
+            Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .ToList()
+                .Where(t => t.GetInterface(nameof(IAction)) != null)
+                .ToList()
+                .ForEach(t => services.AddScoped(t));
 
             //services.AddScoped<CreateSolver>();
-            services.AddScoped<Logging>();
             services.AddRazorPages();
             services.AddControllersWithViews();
 
-             services.AddDbContext<AppDbContext>(options => options
-            .UseMySql(Configuration.GetConnectionString("Database"), new MySqlServerVersion(new Version(8, 0, 27)))
+            services.AddDbContext<WriteDbContext>(options => options
+            .UseMySql(Configuration.GetConnectionString("WriteDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors());
 
+            services.AddDbContext<ReadDbContext>(options => options
+            .UseMySql(Configuration.GetConnectionString("ReadDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors());
@@ -60,7 +72,7 @@ namespace Solvers.App
 
             using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
         
-            using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            using var context = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
 
             if(context.Database.IsMySql())
             {

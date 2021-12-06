@@ -3,24 +3,22 @@ using EasyNetQ;
 using EasyNetQ.AutoSubscribe;
 using EasyNetQ.Consumer;
 using ProtoBuf;
+using Solvers.App.Contracts;
 using Solvers.App.Events;
 using Solvers.App.Models;
 
 namespace Solvers.App.Actions
 {
-    public class CreateSolver
+    public class CreateSolver : IAction
     {
-        private AppDbContext _context;
+        private WriteDbContext _context;
 
-        private IPubSub _bus;
-
-        public CreateSolver(AppDbContext context, IPubSub bus)
+        public CreateSolver(WriteDbContext context)
         {
             _context = context;
-            _bus = bus;
         }
 
-        public async Task FromController(CreateSolverModel model)
+        public async Task<Solver> FromController(CreateSolverModel model)
         {
             var solver = new Solver
             {
@@ -32,11 +30,7 @@ namespace Solvers.App.Actions
 
             await _context.SaveChangesAsync();
 
-            await _bus.PublishAsync(new CreatedSolver
-            {
-                Id = solver.Id,
-                UserToken = Guid.NewGuid(),
-            });
+            return solver;
         }
     }
 
@@ -45,11 +39,11 @@ namespace Solvers.App.Actions
         public CreateSolverModel()
         {
             Name = "";
-            Image = null;
+            Image = "";
         }
 
         public string Name { get; set; }
-        public string? Image { get; set; }
+        public string Image { get; set; }
     }
 
 }
