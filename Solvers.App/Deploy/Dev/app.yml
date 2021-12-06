@@ -30,4 +30,4 @@ spec:
     - port: 80
   selector:
     app: solvers-app
-  type: LoadBalancer
+
