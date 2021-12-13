@@ -62,7 +62,8 @@ jobs:
       # Push the Docker image to Google Container Registry
       - name: Publish
         run: |-
-          docker push "europe-west1-docker.pkg.dev/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+          docker push "europe-west1-docker.pkg.dev/$PROJECT_ID/docker-images/$IMAGE:$GITHUB_SHA"
+
       # Set up kustomize
       - name: Set up Kustomize
         run: |-
