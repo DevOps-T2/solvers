@@ -22,11 +22,7 @@ namespace Solvers.App
         public void ConfigureServices(IServiceCollection services)
         {
 
-   
-            //var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("RabbitMq"), c => c.Register<ISerializer, ProtobufSerializer>());
 
-            //services.AddSingleton(bus.PubSub);
-            //services.AddSingleton(bus);
 
             // Auto register actions
             Assembly.GetExecutingAssembly()
@@ -39,6 +35,10 @@ namespace Solvers.App
             //services.AddScoped<CreateSolver>();
             services.AddRazorPages();
             services.AddControllersWithViews();
+
+            //ConnectionStrings__MyConnection
+
+            var te = Configuration.GetConnectionString("WriteDatabase");
 
             services.AddDbContext<WriteDbContext>(options => options
             .UseMySql(Configuration.GetConnectionString("WriteDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
