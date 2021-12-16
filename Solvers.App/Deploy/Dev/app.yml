@@ -17,6 +17,12 @@ spec:
           ports:
             - containerPort: 80
               name: solvers
+          env:
+            - name: ConnectionStrings__WriteDatabase
+              value: server=solvers-mysql;port=3306;database=dev;user=root;password=secret
+            - name: ConnectionStrings__ReadDatabase
+              value: server=solvers-mysql;port=3306;database=dev;user=root;password=secret
+
 ---
 
 apiVersion: v1
