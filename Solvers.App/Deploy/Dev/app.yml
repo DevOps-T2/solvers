@@ -6,6 +6,8 @@ metadata:
   name: solvers
 spec:
   replicas: 1
+  matchLabels:
+    app: solvers-app
   template:
     metadata:
       labels:
