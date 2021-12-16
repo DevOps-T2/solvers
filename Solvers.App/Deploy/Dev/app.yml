@@ -19,11 +19,10 @@ spec:
               name: solvers
           env:
             - name: ConnectionStrings__WriteDatabase
-              value: "server=solvers-mysql;port=3306;database=dev;user=root;password=secret"
+              value: "server=solvers-mysql-0.solvers-headless;port=3306;database=Default;user=root"
             - name: ConnectionStrings__ReadDatabase
-              value: "server=solvers-mysql;port=3306;database=dev;user=root;password=secret"
+              value: "server=solvers-mysql-read;port=3306;database=Default;user=root"
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
