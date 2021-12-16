@@ -38,7 +38,7 @@ namespace Solvers.App
 
             //ConnectionStrings__MyConnection
 
-            var te = Configuration.GetConnectionString("WriteDatabase");
+ 
 
             services.AddDbContext<WriteDbContext>(options => options
             .UseMySql(Configuration.GetConnectionString("WriteDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
