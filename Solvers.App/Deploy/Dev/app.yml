@@ -22,9 +22,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: solvers-app
+  name: solvers-app-service
   labels:
-    app: solvers
+    app: solvers-service
 spec:
   ports:
     - port: 80
