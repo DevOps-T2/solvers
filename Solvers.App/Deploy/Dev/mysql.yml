@@ -34,22 +34,6 @@ data:
     super-read-only  
 ---
 apiVersion: v1
-data:
-  initdb-sql.sql: |-
-    CREATE TABLE IF NOT EXISTS Default.solvers (
-    id INTEGER NOT NULL AUTO_INCREMENT,
-    userID INTEGER NOT NULL,
-    mzn_url VARCHAR(255) NOT NULL,
-    dzn_url VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
-    );
-kind: ConfigMap
-metadata:
-  labels:
-    app: solvers-mysql
-  name: solvers-mysql-init
----
-apiVersion: v1
 kind: Service
 metadata:
   labels:
@@ -131,8 +115,6 @@ spec:
           subPath: mysql
         - mountPath: /etc/mysql/conf.d
           name: conf
-        - mountPath: /docker-entrypoint-initdb.d
-          name: mysql-init
       - command:
         - bash
         - -c
@@ -189,8 +171,6 @@ spec:
           name: conf
         - mountPath: /mnt/config-map
           name: config-map
-        - mountPath: /docker-entrypoint-initdb.d
-          name: mysql-init
       - command:
         - bash
         - -c
@@ -214,9 +194,6 @@ spec:
       - configMap:
           name: mysql
         name: config-map
-      - configMap:
-          name: solvers-mysql-init
-        name: mysql-init
   volumeClaimTemplates:
   - metadata:
       labels:
