@@ -24,6 +24,7 @@ namespace Solvers.App.Controllers
         [HttpGet]
         public IList<Solver> Index([FromServices] ListSolvers action)
         {
+            var headers = Request.Headers;
             return action.FromController();
         }
 
