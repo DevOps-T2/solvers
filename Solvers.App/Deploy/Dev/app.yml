@@ -22,9 +22,16 @@ spec:
               name: solvers
           env:
             - name: ConnectionStrings__WriteDatabase
-              value: "server=solvers-mysql-0.solvers-headless;port=3306;database=Default;user=root"
+              valueFrom:
+                secretKeyRef:
+                  name: solvers-connection-strings
+                  key: write-database
             - name: ConnectionStrings__ReadDatabase
-              value: "server=solvers-mysql-read;port=3306;database=Default;user=root"
+              valueFrom:
+                secretKeyRef:
+                  name: solvers-connection-strings
+                  key: read-database
+
 ---
 apiVersion: v1
 kind: Service
