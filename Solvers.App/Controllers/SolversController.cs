@@ -37,7 +37,7 @@ namespace Solvers.App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> Delete([FromServices] DeleteSolver action, long id)
+        public async Task<ActionResult> Delete([FromServices] DeleteSolver action, [FromRoute] long id)
         {
             return await action.FromController(Request, id);
         }
