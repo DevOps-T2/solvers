@@ -22,8 +22,16 @@ namespace Solvers.App.Actions
             _getSolver = getSolver;
         }
 
-        public async Task<ActionResult<Solver>> FromController(UpdateSolverModel model)
+        public async Task<ActionResult<Solver>> FromController(HttpRequest request, UpdateSolverModel model)
         {
+
+            var role = request.Headers["Role"].FirstOrDefault();
+
+            if (role != "admin")
+            {
+                return new ForbidResult();
+            }
+
             var solver = _getSolver.Handle(model.Id);
 
             if (solver == null)

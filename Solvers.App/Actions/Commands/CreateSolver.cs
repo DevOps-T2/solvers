@@ -2,6 +2,7 @@
 using EasyNetQ;
 using EasyNetQ.AutoSubscribe;
 using EasyNetQ.Consumer;
+using Microsoft.AspNetCore.Mvc;
 using ProtoBuf;
 using Solvers.App.Contracts;
 using Solvers.App.Events;
@@ -17,9 +18,16 @@ namespace Solvers.App.Actions
         {
             _context = context;
         }
-
-        public async Task<Solver> FromController(CreateSolverModel model)
+        public async Task<ActionResult<Solver>> FromController(HttpRequest request, CreateSolverModel model)
         {
+
+            var role = request.Headers["Role"].FirstOrDefault();
+
+            if (role != "admin")
+            {
+                return new ForbidResult();
+            }
+
             var solver = new Solver
             {
                 Name = model.Name,

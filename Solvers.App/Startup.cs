@@ -1,11 +1,14 @@
 ﻿using Contexts.Solvers;
 using EasyNetQ;
 using EasyNetQ.AutoSubscribe;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Solvers.App.Actions;
 using Solvers.App.Contracts;
 using Solvers.App.Serializers;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 
 namespace Solvers.App
@@ -33,12 +36,44 @@ namespace Solvers.App
                 .ForEach(t => services.AddScoped(t));
 
             //services.AddScoped<CreateSolver>();
-            services.AddRazorPages();
+            services.AddRazorPages(); 
             services.AddControllersWithViews();
 
             //ConnectionStrings__MyConnection
+            
 
- 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = false,
+
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = false,
+                    ValidateActor = false,
+
+                    RequireSignedTokens = false,
+
+
+
+                    SignatureValidator = delegate (string token, TokenValidationParameters parameters) {
+
+                        var jwt = new JwtSecurityToken(token);
+
+                        return jwt;
+                    }
+                };
+            });
 
             services.AddDbContext<WriteDbContext>(options => options
             .UseMySql(Configuration.GetConnectionString("WriteDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
@@ -56,6 +91,35 @@ namespace Solvers.App
 
             services.AddSwaggerGen(c =>
             {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+              {
+                {
+                  new OpenApiSecurityScheme
+                  {
+                    Reference = new OpenApiReference
+                      {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                      },
+                      Scheme = "oauth2",
+                      Name = "Bearer",
+                      In = ParameterLocation.Header,
+
+                    },
+                    new List<string>()
+                  }
+                });
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Solvers Service", Description = "Documentation for the solver service.", Version = "v1" });
             });
         }
@@ -79,10 +143,12 @@ namespace Solvers.App
                 context.Database.Migrate();
             }
 
+            
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

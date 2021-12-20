@@ -19,8 +19,15 @@ namespace Solvers.App.Actions
             _context = context;
         }
 
-        public async Task<ActionResult> FromController(long id)
+        public async Task<ActionResult> FromController(HttpRequest request, long id)
         {
+            var role = request.Headers["Role"].FirstOrDefault();
+
+            if (role != "admin")
+            {
+                return new ForbidResult();
+            }
+
             var result = _context.Solvers.FirstOrDefault(s => s.Id == id);
 
             if (result == null)
