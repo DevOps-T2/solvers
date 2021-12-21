@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Solvers.App;
 using Solvers.App.Actions;
 using Solvers.App.Models;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Solvers.Test
 {
-    public abstract class BaseFeatureTest
+    public abstract class BaseFeatureTest : BaseTest
     {
         protected WebApplicationFactory<Program> App;
 
