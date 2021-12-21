@@ -75,17 +75,21 @@ namespace Solvers.App
                 };
             });
 
-            services.AddDbContext<WriteDbContext>(options => options
-            .UseMySql(Configuration.GetConnectionString("WriteDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors());
+            if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Test")
+            {
+                services.AddDbContext<WriteDbContext>(options => options
+                .UseMySql(Configuration.GetConnectionString("WriteDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors());
 
-            services.AddDbContext<ReadDbContext>(options => options
-            .UseMySql(Configuration.GetConnectionString("ReadDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors());
+                services.AddDbContext<ReadDbContext>(options => options
+                .UseMySql(Configuration.GetConnectionString("ReadDatabase"), new MySqlServerVersion(new Version(8, 0, 27)))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors());
+            }
+
             
             services.AddEndpointsApiExplorer();
 
@@ -134,15 +138,20 @@ namespace Solvers.App
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-        
-            using var context = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
 
-            if(context.Database.IsMySql())
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Test")
             {
-                context.Database.Migrate();
-            }
 
+                using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+
+                using var context = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+
+                if (context.Database.IsMySql())
+                {
+                    context.Database.Migrate();
+                }
+
+            }
             
             app.UseStaticFiles();
 
