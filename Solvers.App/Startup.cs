@@ -125,9 +125,6 @@ namespace Solvers.App
                   }
                 });
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Solvers Service", Description = "Documentation for the solver service.", Version = "v1" });
-
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Solvers.App.xml");
-                c.IncludeXmlComments(filePath);
             });
         }
 
