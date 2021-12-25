@@ -11,12 +11,23 @@ namespace Solvers.App.Controllers
     [Route("api/[controller]")]
     public class SolversController : Controller
     {
+        /// <summary>
+        /// List all available solvers.
+        /// </summary>
+        /// <response code="200">Solvers listed successfully.</response>
+        /// <response code="500">Internal error.</response>
         [HttpGet]
         public IList<Solver> Index([FromServices] ListSolvers action)
         {
             return action.FromController();
         }
 
+        /// <summary>
+        /// Get a single solver by id.
+        /// </summary>
+        /// <response code="200">Solver found successfully.</response>
+        /// <response code="404">Solver was not found.</response>
+        /// <response code="500">Internal error.</response>
         [HttpGet]
         [Route("{id}")]
         public ActionResult<Solver> Get([FromServices] GetSolver action, long id)
@@ -24,18 +35,39 @@ namespace Solvers.App.Controllers
             return action.FromController(id);
         }
 
+        /// <summary>
+        /// Create a new solver.
+        /// </summary>
+        /// <response code="200">Solver created successfully.</response>
+        /// <response code="403">Insufficient permissions.</response>
+        /// <response code="500">Internal error.</response>
         [HttpPost]
         public async Task<ActionResult<Solver>> Create([FromServices] CreateSolver action, CreateSolverModel model)
         {
             return await action.FromController(Request, model);
         }
 
+        /// <summary>
+        /// Update an existing solver by id.
+        /// </summary>
+        /// <response code="200">Solver updated successfully.</response>
+        /// <response code="403">Insufficient permissions.</response>
+        /// <response code="404">Solver not found.</response>
+        /// <response code="500">Internal error.</response>
         [HttpPut]
         public async Task<ActionResult<Solver>> Update([FromServices] UpdateSolver action, UpdateSolverModel model)
         {
             return await action.FromController(Request, model);
         }
 
+
+        /// <summary>
+        /// Delete an existing solver by id.
+        /// </summary>
+        /// <response code="200">Solver deleted successfully.</response>
+        /// <response code="403">Insufficient permissions.</response>
+        /// <response code="404">Solver not found.</response>
+        /// <response code="500">Internal error.</response>
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> Delete([FromServices] DeleteSolver action, long id)
