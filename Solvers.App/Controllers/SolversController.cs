@@ -16,8 +16,6 @@ namespace Solvers.App.Controllers
         /// </summary>
         /// <response code="200">Solvers listed successfully.</response>
         /// <response code="500">Internal error.</response>
-        [ProducesResponseType(typeof(IList<Solver>), 200)]
-        [ProducesResponseType(500)]
         [HttpGet]
         public IList<Solver> Index([FromServices] ListSolvers action)
         {
@@ -30,9 +28,6 @@ namespace Solvers.App.Controllers
         /// <response code="200">Solver found successfully.</response>
         /// <response code="404">Solver was not found.</response>
         /// <response code="500">Internal error.</response>
-        [ProducesResponseType(typeof(Solver), 200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
         [HttpGet]
         [Route("{id}")]
         public ActionResult<Solver> Get([FromServices] GetSolver action, long id)
@@ -46,9 +41,6 @@ namespace Solvers.App.Controllers
         /// <response code="200">Solver created successfully.</response>
         /// <response code="403">Insufficient permissions.</response>
         /// <response code="500">Internal error.</response>
-        [ProducesResponseType(typeof(Solver), 200)]
-        [ProducesResponseType(403)]
-        [ProducesResponseType(500)]
         [HttpPost]
         public async Task<ActionResult<Solver>> Create([FromServices] CreateSolver action, CreateSolverModel model)
         {
@@ -63,9 +55,6 @@ namespace Solvers.App.Controllers
         /// <response code="404">Solver not found.</response>
         /// <response code="500">Internal error.</response>
         [ProducesResponseType(typeof(Solver), 200)]
-        [ProducesResponseType(403)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
         [HttpPut]
         public async Task<ActionResult<Solver>> Update([FromServices] UpdateSolver action, UpdateSolverModel model)
         {
@@ -82,10 +71,6 @@ namespace Solvers.App.Controllers
         /// <response code="500">Internal error.</response>
         [HttpDelete]
         [Route("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(403)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
         public async Task<ActionResult> Delete([FromServices] DeleteSolver action, long id)
         {
             return await action.FromController(Request, id);
