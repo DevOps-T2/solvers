@@ -8,6 +8,10 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\Dresi\solvers\Solvers.App\Solvers.App.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Migrations\20211201193124_CreateSolversTable.cs" />
     <Compile Remove="Migrations\20211201193124_CreateSolversTable.Designer.cs" />
