@@ -1,5 +1,5 @@
 ﻿# Solvers Service
-This service provides a list of solvers available to run on data sets.
+This service provides a list of solvers available to run on data sets. asd
 ## Prerequisites 
 * Docker
 * Docker-compose
